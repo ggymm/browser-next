@@ -1,0 +1,21 @@
+{
+  "name": "native",
+  "version": "0.0.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "license": "MIT",
+  "napi": {
+    "name": "native",
+    "triples": {}
+  },
+  "scripts": {
+    "build": "napi build --platform --release lib",
+    "build:debug": "napi build --platform lib"
+  },
+  "devDependencies": {
+    "@napi-rs/cli": "2.18.4"
+  },
+  "engines": {
+    "node": ">= 10"
+  }
+}
