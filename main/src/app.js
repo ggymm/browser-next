@@ -3,7 +3,8 @@ import { join } from 'path'
 import { app, Menu } from 'electron'
 import { AppWindow } from './app/window.js'
 
-export const appPath = join(app.getPath('userData'), 'app')
+export const appPath = app.getAppPath()
+export const dataPath = join(app.getPath('userData'), 'app')
 
 export const mainApp = new App()
 
@@ -15,7 +16,7 @@ class App {
 
   open() {
     const window = new AppWindow({
-      index: 'https://www.baidu.com'
+      index: join(appPath, 'renderer', 'index.html')
     })
     this.windows.set(window.id, window)
   }

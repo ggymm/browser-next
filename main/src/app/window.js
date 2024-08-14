@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { BrowserWindow } from 'electron'
 
 /**
  * @typedef {Object} Options
@@ -38,15 +38,9 @@ export class AppWindow {
       this.window.maximize()
     }
 
-    if (!app.isPackaged) {
-      this.window.loadURL(ops.index).then(() => {
-        this.setup()
-      })
-    } else {
-      this.window.loadFile(ops.index).then(() => {
-        this.setup()
-      })
-    }
+    this.window.loadFile(ops.index).then(() => {
+      this.setup()
+    })
   }
 
   setup() {}

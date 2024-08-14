@@ -1,8 +1,8 @@
 import logger, { log, info, warn, error, debug } from 'electron-log'
 
-import { appPath } from './app'
+import { dataPath } from './app'
 
-const logPath = appPath + '/logs'
+const logPath = dataPath + '/logs'
 logger.transports.file.resolvePathFn = function () {
   const date = new Date()
   const year = date.getFullYear()
