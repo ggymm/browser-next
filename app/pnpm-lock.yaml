@@ -12,7 +12,7 @@ importers:
         specifier: 31.3.1
         version: 31.3.1
       electron-builder:
-        specifier: ^24.13.3
+        specifier: 24.13.3
         version: 24.13.3(electron-builder-squirrel-windows@24.13.3(dmg-builder@24.13.3))
 
 packages:

@@ -3,8 +3,7 @@
   "productName": "Browser",
   "asar": false,
   "directories": {
-    "output": "build/release",
-    "buildResources": "public/icons"
+    "output": "build/release"
   },
   "files": [
     "main.js",
@@ -25,7 +24,7 @@
         "target": "zip"
       },
       {
-        "arch": ["x64", "ia32"],
+        "arch": ["ia32"],
         "target": "nsis"
       }
     ],
