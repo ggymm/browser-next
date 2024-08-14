@@ -1,0 +1,40 @@
+{
+  "appId": "com.ggymm.browser",
+  "productName": "Browser",
+  "asar": false,
+  "directories": {
+    "output": "build/release",
+    "buildResources": "public/icons"
+  },
+  "files": [
+    "main.js",
+    "package.json",
+    "renderer/**/*",
+    "!node_modules/**/*"
+  ],
+  "mac": {
+    "target": [
+      "dmg"
+    ],
+    "artifactName": "${productName}_${arch}_${version}.${ext}"
+  },
+  "win": {
+    "target": [
+      {
+        "arch": ["x64", "ia32"],
+        "target": "zip"
+      },
+      {
+        "arch": ["x64", "ia32"],
+        "target": "nsis"
+      }
+    ],
+    "artifactName": "${productName}_${arch}_${version}.${ext}"
+  },
+  "nsis": {
+    "oneClick": false,
+    "perMachine": false,
+    "deleteAppDataOnUninstall": false,
+    "allowToChangeInstallationDirectory": true
+  }
+}
