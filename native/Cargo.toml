@@ -1,14 +1,18 @@
 [package]
 edition = "2021"
-name = "browser-native"
+name = "native"
 version = "0.0.1"
 
 [lib]
 crate-type = ["cdylib"]
 
 [dependencies]
-napi = { version = "2.16.8", features = ["async"] }
+napi = "2.16.8"
 napi-derive = "2.16.10"
+
+[dependencies.rusqlite]
+version = "0.32.1"
+features = ["bundled"]
 
 [build-dependencies]
 napi-build = "2.1.3"
