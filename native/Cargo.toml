@@ -7,8 +7,17 @@ version = "0.0.1"
 crate-type = ["cdylib"]
 
 [dependencies]
-napi = "2.16.8"
-napi-derive = "2.16.10"
+serde = "1.0.208"
+serde_json = "1.0.125"
+base64 = "0.22.1"
+
+[dependencies.napi]
+version = "2.16.9"
+features = ["napi9", "serde-json"]
+
+[dependencies.napi-derive]
+version = "2.16.11"
+features = ["type-def"]
 
 [dependencies.rusqlite]
 version = "0.32.1"

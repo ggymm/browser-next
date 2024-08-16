@@ -10,10 +10,11 @@
   },
   "scripts": {
     "build": "napi build --platform --release lib",
-    "build:debug": "napi build --platform lib"
+    "debug:db": "node ./test/db.js"
   },
   "devDependencies": {
-    "@napi-rs/cli": "2.18.4"
+    "@napi-rs/cli": "2.18.4",
+    "zx": "^8.1.4"
   },
   "engines": {
     "node": ">= 10"

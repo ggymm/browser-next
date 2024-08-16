@@ -5,5 +5,7 @@
 
 export declare class Database {
   constructor(path: string)
-  execute(sql: string): void
+  close(): void
+  query(sql: string, params: Array<string>): Array<Record<string, any>>
+  execute(sql: string, params: Array<string>): boolean
 }
