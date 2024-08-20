@@ -33,8 +33,9 @@ export default [
   }),
   virtualHtmlTemplatePlugin({
     pages: {
-      index: {
-        entry: `src/views/index/main.js`
+      main: {
+        title: 'Browser Main',
+        entry: `src/views/main/main.js`
       },
       newtab: {
         title: 'Browser Newtab',

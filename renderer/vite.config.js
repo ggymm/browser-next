@@ -25,11 +25,11 @@ export default defineConfig(({ mode }) => {
       outDir: 'dist',
       rollupOptions: {
         input: {
-          index: path.resolve(__dirname, 'index.html'),
+          main: path.resolve(__dirname, 'main.html'),
           newtab: path.resolve(__dirname, 'newtab.html')
         },
         output: {
-          format: 'es',
+          format: 'esm',
           chunkFileNames: 'js/[name]-[hash].js',
           entryFileNames: 'js/[name]-[hash].js',
           assetFileNames: '[ext]/[name]-[hash].[ext]'

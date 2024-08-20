@@ -1,5 +1,5 @@
 <script setup></script>
 
 <template>
-  <div>首页</div>
+  <div>标签页</div>
 </template>

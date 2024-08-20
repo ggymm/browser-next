@@ -58,7 +58,7 @@ export const virtualHtmlTemplatePlugin = (options) => {
 
         let name
         if (url === '/') {
-          name = 'index'
+          name = 'main'
         } else {
           name = path.join(path.dirname(url), path.basename(url, '.html')).slice(1)
         }

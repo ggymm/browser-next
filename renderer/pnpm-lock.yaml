@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@unocss/preset-rem-to-px':
+        specifier: ^0.62.2
+        version: 0.62.2
       '@vitejs/plugin-vue':
         specifier: 5.1.2
         version: 5.1.2(vite@5.4.1(@types/node@22.3.0)(sass@1.77.8))(vue@3.4.38)
@@ -669,6 +672,9 @@ packages:
 
   '@unocss/preset-mini@0.62.2':
     resolution: {integrity: sha512-NeyYGwGCmMbjzMMhQGzn4qk74LYIsLM4zpQru2Krt1snw1DgVpp3iV8hCWIH4y0Y+ud+K5SUFMAvIe18vq2OQw==}
+
+  '@unocss/preset-rem-to-px@0.62.2':
+    resolution: {integrity: sha512-PrUXEx6jD7Iecv+CrncTGqNV7LS17GEZYFxFXymK1aQOkq5sao+UOWVJDep4ZUT0oHHjTnNwckYe8tbP5t/rtA==}
 
   '@unocss/preset-tagify@0.62.2':
     resolution: {integrity: sha512-xfxyKqBxBFOtKRifpM+9co9GqXj5PmGNdLcoWoYninmtO1CvCc50IBIob2h85X18jsa6Vm3sATzEfgOSggcGzQ==}
@@ -2742,6 +2748,10 @@ snapshots:
       '@unocss/core': 0.62.2
       '@unocss/extractor-arbitrary-variants': 0.62.2
       '@unocss/rule-utils': 0.62.2
+
+  '@unocss/preset-rem-to-px@0.62.2':
+    dependencies:
+      '@unocss/core': 0.62.2
 
   '@unocss/preset-tagify@0.62.2':
     dependencies:
