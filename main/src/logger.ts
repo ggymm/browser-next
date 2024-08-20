@@ -1,6 +1,6 @@
 import logger, { log, info, warn, error, debug } from 'electron-log'
 
-import { dataPath } from './app'
+import { dataPath } from '@/app'
 
 const logPath = dataPath + '/logs'
 logger.transports.file.resolvePathFn = function () {

@@ -1,8 +1,7 @@
 import { release } from 'os'
-
 import { app } from 'electron'
 
-import { mainApp } from './app'
+import { mainApp } from '@/app'
 
 if (release().startsWith('6.1')) {
   app.disableHardwareAcceleration()

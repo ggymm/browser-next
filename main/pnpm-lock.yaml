@@ -8,6 +8,9 @@ importers:
 
   .:
     devDependencies:
+      '@rollup/plugin-alias':
+        specifier: 5.1.0
+        version: 5.1.0(rollup@4.20.0)
       '@rollup/plugin-commonjs':
         specifier: 26.0.1
         version: 26.0.1(rollup@4.20.0)
@@ -17,9 +20,12 @@ importers:
       '@rollup/plugin-terser':
         specifier: 0.4.4
         version: 0.4.4(rollup@4.20.0)
+      '@rollup/plugin-typescript':
+        specifier: 11.1.6
+        version: 11.1.6(rollup@4.20.0)(tslib@2.6.3)(typescript@5.5.4)
       electron:
-        specifier: 31.3.1
-        version: 31.3.1
+        specifier: 31.4.0
+        version: 31.4.0
       electron-log:
         specifier: 5.1.7
         version: 5.1.7
@@ -29,8 +35,14 @@ importers:
       rollup:
         specifier: 4.20.0
         version: 4.20.0
+      tslib:
+        specifier: ^2.6.3
+        version: 2.6.3
+      typescript:
+        specifier: 5.5.4
+        version: 5.5.4
       zx:
-        specifier: ^8.1.4
+        specifier: 8.1.4
         version: 8.1.4
 
 packages:
@@ -68,6 +80,15 @@ packages:
     resolution: {integrity: sha512-+1VkjdD0QBLPodGrJUeqarH8VAIvQODIbwh9XpP5Syisf7YoQgsJKPNFoqqLQlu+VQ/tVSshMR6loPMn8U+dPg==}
     engines: {node: '>=14'}
 
+  '@rollup/plugin-alias@5.1.0':
+    resolution: {integrity: sha512-lpA3RZ9PdIG7qqhEfv79tBffNaoDuukFDrmhLqg9ifv99u/ehn+lOg30x2zmhf8AQqQUZaMk/B9fZraQ6/acDQ==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^1.20.0||^2.0.0||^3.0.0||^4.0.0
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+
   '@rollup/plugin-commonjs@26.0.1':
     resolution: {integrity: sha512-UnsKoZK6/aGIH6AdkptXhNvhaqftcjq3zZdT+LY5Ftms6JR06nADcDsYp5hTU9E2lbJUEOhdlY5J4DNTneM+jQ==}
     engines: {node: '>=16.0.0 || 14 >= 14.17'}
@@ -93,6 +114,19 @@ packages:
       rollup: ^2.0.0||^3.0.0||^4.0.0
     peerDependenciesMeta:
       rollup:
+        optional: true
+
+  '@rollup/plugin-typescript@11.1.6':
+    resolution: {integrity: sha512-R92yOmIACgYdJ7dJ97p4K69I8gg6IEHt8M7dUBxN3W6nrO8uUxX5ixl0yU/N3aZTi8WhPuICvOHXQvF6FaykAA==}
+    engines: {node: '>=14.0.0'}
+    peerDependencies:
+      rollup: ^2.14.0||^3.0.0||^4.0.0
+      tslib: '*'
+      typescript: '>=3.7.0'
+    peerDependenciesMeta:
+      rollup:
+        optional: true
+      tslib:
         optional: true
 
   '@rollup/pluginutils@5.1.0':
@@ -338,8 +372,8 @@ packages:
     resolution: {integrity: sha512-/PjrS9zGkrZCDTHt6IgNE3FeciBbi4wd7U76NG9jAoNXF99E9IJdvBkqvaUJ1NjLojYDKs0kTvn9YhKy1/Zi+Q==}
     engines: {node: '>= 14'}
 
-  electron@31.3.1:
-    resolution: {integrity: sha512-9fiuWlRhBfygtcT+auRd/WdBK/f8LZZcrpx0RjpXhH2DPTP/PfnkC4JB1PW55qCbGbh4wAgkYbf4ExIag8oGCA==}
+  electron@31.4.0:
+    resolution: {integrity: sha512-YTwKoAA+nrJMlI1TTHnIXLYWoQLKnhbkz0qxZcI7Hadcy0UaFMFs9xzwvH2MnrRpVJy7RKo49kVGuvSdRl8zMA==}
     engines: {node: '>= 12.20.55'}
     hasBin: true
 
@@ -627,6 +661,10 @@ packages:
     resolution: {integrity: sha512-bzyZ1e88w9O1iNJbKnOlvYTrWPDl46O1bG0D3XInv+9tkPrxrN8jUUTiFlDkkmKWgn1M6CfIA13SuGqOa9Korw==}
     engines: {node: '>=14'}
 
+  slash@4.0.0:
+    resolution: {integrity: sha512-3dOsAHXXUkQTpOYcoAxLIorMTp4gIQr5IW3iVb7A7lFIp0VHhnynm9izx6TssdrIcVIESAlVjtnO2K8bg+Coew==}
+    engines: {node: '>=12'}
+
   smob@1.5.0:
     resolution: {integrity: sha512-g6T+p7QO8npa+/hNx9ohv1E5pVCmWrVCUzUXJyLdMmftX6ER0oiWY/w9knEonLpnOp6b6FenKnMfR8gqwWdwig==}
 
@@ -669,9 +707,17 @@ packages:
     engines: {node: '>=10'}
     hasBin: true
 
+  tslib@2.6.3:
+    resolution: {integrity: sha512-xNvxJEOUiWPGhUuUdQgAJPKOOJfGnIyKySOc09XkKsgdUV/3E2zvwZYdejjmRgPCgcym1juLH3226yA7sEFJKQ==}
+
   type-fest@0.13.1:
     resolution: {integrity: sha512-34R7HTnG0XIJcBSn5XhDd7nNFPRcXYRZrBB2O2jdKqYODldSzBAqzsWoZYYvduky73toYS/ESqxPvkDf/F0XMg==}
     engines: {node: '>=10'}
+
+  typescript@5.5.4:
+    resolution: {integrity: sha512-Mtq29sKDAEYP7aljRgtPOpTvOfbwRWlS6dPRzwjdE+C0R4brX/GUyhHSecbHMFLNBLcJIPt9nl9yG5TZ1weH+Q==}
+    engines: {node: '>=14.17'}
+    hasBin: true
 
   undici-types@5.26.5:
     resolution: {integrity: sha512-JlCMO+ehdEIKqlFxk6IfVoAUVmgz7cU7zD/h9XZ0qzeosSHmUJVOzSQvvYSYWXkFXC+IfLKSIffhv0sVZup6pA==}
@@ -754,6 +800,12 @@ snapshots:
   '@pkgjs/parseargs@0.11.0':
     optional: true
 
+  '@rollup/plugin-alias@5.1.0(rollup@4.20.0)':
+    dependencies:
+      slash: 4.0.0
+    optionalDependencies:
+      rollup: 4.20.0
+
   '@rollup/plugin-commonjs@26.0.1(rollup@4.20.0)':
     dependencies:
       '@rollup/pluginutils': 5.1.0(rollup@4.20.0)
@@ -783,6 +835,15 @@ snapshots:
       terser: 5.31.5
     optionalDependencies:
       rollup: 4.20.0
+
+  '@rollup/plugin-typescript@11.1.6(rollup@4.20.0)(tslib@2.6.3)(typescript@5.5.4)':
+    dependencies:
+      '@rollup/pluginutils': 5.1.0(rollup@4.20.0)
+      resolve: 1.22.8
+      typescript: 5.5.4
+    optionalDependencies:
+      rollup: 4.20.0
+      tslib: 2.6.3
 
   '@rollup/pluginutils@5.1.0(rollup@4.20.0)':
     dependencies:
@@ -979,7 +1040,7 @@ snapshots:
 
   electron-log@5.1.7: {}
 
-  electron@31.3.1:
+  electron@31.4.0:
     dependencies:
       '@electron/get': 2.0.3
       '@types/node': 20.14.15
@@ -1298,6 +1359,8 @@ snapshots:
 
   signal-exit@4.1.0: {}
 
+  slash@4.0.0: {}
+
   smob@1.5.0: {}
 
   source-map-support@0.5.21:
@@ -1345,8 +1408,12 @@ snapshots:
       commander: 2.20.3
       source-map-support: 0.5.21
 
+  tslib@2.6.3: {}
+
   type-fest@0.13.1:
     optional: true
+
+  typescript@5.5.4: {}
 
   undici-types@5.26.5: {}
 

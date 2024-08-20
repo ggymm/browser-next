@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ],
+      "#/*": [
+        "lib/*"
+      ]
+    },
+    "strict": true,
+    "module": "esnext",
+    "target": "esnext",
+    "outDir": "./target",
+    "skipLibCheck": true,
+    "importHelpers": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "forceConsistentCasingInFileNames": true
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts"
+  ],
+  "exclude": ["node_modules"]
+}
