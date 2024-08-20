@@ -1,14 +1,14 @@
 use std::sync::Mutex;
 use std::collections::HashMap;
 
-use napi::{Result, Error};
+use napi::{Error, Result};
+use serde_json::{Value, Number};
 
 use base64::Engine;
 use base64::engine::general_purpose;
-use serde_json::{Number, Value};
 
+use rusqlite::{ToSql, Connection};
 use rusqlite::types::Type;
-use rusqlite::{Connection, ToSql};
 
 #[napi]
 pub struct Database {
@@ -33,14 +33,14 @@ impl Database {
     #[napi]
     pub fn close(&self) {}
 
-    // 查询
+    // 执行查询 
     #[napi]
     pub fn query(&self, sql: String, params: Vec<String>) -> Result<Vec<HashMap<String, Value>>> {
         let conn = self.conn.lock().unwrap();
         let params: Vec<&dyn ToSql> = params.iter().map(|p| p as &dyn ToSql).collect();
 
         let mut stmt = conn.prepare(&sql).map_err(|e| {
-            Error::from_reason(format!("Failed to prepare SQL: {}", e))
+            Error::from_reason(format!("Failed to parse SQL: {}", e))
         })?;
 
         let count = stmt.column_count();
@@ -53,9 +53,9 @@ impl Database {
             Error::from_reason(format!("Failed to iterate over rows: {}", e))
         })? {
             let mut item = HashMap::new();
-            for i in 0..count {
-                let name = row.as_ref().column_name(i).unwrap().to_string();
-                let value = row.get_ref_unwrap(i);
+            for idx in 0..count {
+                let name = row.as_ref().column_name(idx).unwrap().to_string();
+                let value = row.get_ref_unwrap(idx);
 
                 match value.data_type() {
                     Type::Null => {
@@ -89,7 +89,7 @@ impl Database {
         Ok(result)
     }
 
-    // 执行
+    // 执行 创建/插入/更新/删除 等操作
     #[napi]
     pub fn execute(&self, sql: String, params: Vec<String>) -> Result<bool> {
         let conn = self.conn.lock().unwrap();

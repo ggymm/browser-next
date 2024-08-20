@@ -9,12 +9,12 @@
     "triples": {}
   },
   "scripts": {
+    "clean": "cargo clean",
     "build": "napi build --platform --release lib",
     "debug:db": "node ./test/db.js"
   },
   "devDependencies": {
-    "@napi-rs/cli": "2.18.4",
-    "zx": "^8.1.4"
+    "@napi-rs/cli": "2.18.4"
   },
   "engines": {
     "node": ">= 10"
