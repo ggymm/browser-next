@@ -3,11 +3,13 @@
   "productName": "Browser",
   "asar": false,
   "directories": {
-    "output": "build/release"
+    "output": "dist/release"
   },
   "files": [
     "main.js",
     "package.json",
+    "lib/**/*",
+    "preload/**/*",
     "renderer/**/*",
     "!node_modules/**/*"
   ],
