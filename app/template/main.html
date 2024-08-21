@@ -3,14 +3,129 @@
 <head>
   <meta charset="UTF-8">
   <title>调试页面</title>
+  <style>
+      html, body {
+          width: 100%;
+          height: 100%;
+          margin: 0;
+          padding: 0;
+          overflow: hidden;
+
+          -webkit-app-region: no-drag;
+      }
+
+      #app {
+          width: 100%;
+          height: 120px;
+          padding: 0 20px;
+
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+
+          -webkit-app-region: drag;
+      }
+
+      .item {
+          width: 100%;
+          height: 60px;
+
+          display: flex;
+          flex-direction: row;
+          align-items: center;
+      }
+
+      .button {
+          height: 32px;
+          margin: 0 12px;
+          padding: 0 12px;
+
+          -webkit-app-region: no-drag;
+      }
+  </style>
 </head>
 <body>
-<h1>浏览器</h1>
-<button onclick="close()">关闭</button>
-<button onclick="restore()">还原</button>
-<button onclick="minimize()">最小化</button>
-<button onclick="maximize()">最大化</button>
-<button onclick="">打开新窗口</button>
-<script src="electron.js"></script>
+<div id="app">
+  <div class="item">
+    <button class="button" onclick="close()">关闭</button>
+    <button class="button" onclick="create()">新建</button>
+    <button class="button" onclick="restore()">还原</button>
+    <button class="button" onclick="minimize()">最小化</button>
+    <button class="button" onclick="maximize()">最大化</button>
+    <button class="button" onclick="showUserAgent()">查看user-agent</button>
+  </div>
+  <div class="item">
+    <button class="button" onclick="createWebview(1, 'https://jd.com')">创建视图1</button>
+    <button class="button" onclick="createWebview(2, 'https://baidu.com')">创建视图2</button>
+    <button class="button" onclick="createWebview(3, 'https://douyin.com')">创建视图3</button>
+
+    <button class="button" onclick="selectWebview(1)">切换视图1</button>
+    <button class="button" onclick="selectWebview(2)">切换视图2</button>
+    <button class="button" onclick="selectWebview(3)">切换视图3</button>
+
+    <button class="button" onclick="closeWebview(1)">关闭视图1</button>
+    <button class="button" onclick="closeWebview(2)">关闭视图2</button>
+    <button class="button" onclick="closeWebview(3)">关闭视图3</button>
+  </div>
+</div>
+<script>
+  const ipc = window['electron']['ipcRenderer']
+  if (!ipc) {
+    console.error('Electron IPC not available')
+  }
+
+  document.addEventListener('DOMContentLoaded', function() {
+    const app = document.querySelector('#app')
+
+    ipc['send']('renderer:webview:update:margin', {
+      top: app.clientHeight
+    })
+  })
+
+  function close() {
+    ipc['send']('renderer:window:close')
+  }
+
+  function create() {
+    ipc['send']('renderer:window:create')
+  }
+
+  function restore() {
+    ipc['send']('renderer:window:restore')
+  }
+
+  function minimize() {
+    ipc['send']('renderer:window:minimize')
+  }
+
+  function maximize() {
+    ipc['send']('renderer:window:maximize')
+  }
+
+  function showUserAgent() {
+    const val = ipc['sendSync']('debug:user-agent')
+    console.log(val)
+  }
+
+  function closeWebview(key) {
+    ipc['send']('renderer:webview:close', {
+      key: key
+    })
+  }
+
+  function selectWebview(key) {
+    ipc['send']('renderer:webview:select', {
+      key: key
+    })
+  }
+
+  function createWebview(key, url) {
+    ipc['send']('renderer:webview:create', {
+      key: key,
+      url: url,
+      active: true
+    })
+  }
+</script>
 </body>
 </html>

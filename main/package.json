@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "build": "zx build.mjs",
-    "debug": "zx debug.mjs"
+    "build": "rollup -c",
+    "develop": "zx develop.mjs"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "5.1.0",

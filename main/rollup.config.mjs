@@ -28,8 +28,14 @@ export default {
   plugins: [
     alias({
       entries: [
-        { find: '@', replacement: path.resolve(__dirname, 'src') },
-        { find: '#', replacement: path.resolve(__dirname, 'lib') }
+        {
+          find: '@',
+          replacement: path.resolve(__dirname, 'src')
+        },
+        {
+          find: '#',
+          replacement: path.resolve(__dirname, 'lib')
+        }
       ]
     }),
     // terser(),

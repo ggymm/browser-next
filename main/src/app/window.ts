@@ -7,6 +7,12 @@ import { register } from '@/app/event'
 import { DialogManager } from '@/app/views/dialog-manager'
 import { WebviewManager } from '@/app/views/webview-manager'
 
+export interface Args {
+  index: string
+  bounds?: Bounds
+  preload?: string
+}
+
 export class Window {
   public app: App
   public window: BaseWindow
@@ -15,14 +21,14 @@ export class Window {
   public dialogManager: DialogManager
   public webviewManager: WebviewManager
 
-  constructor(app: App, ops: WindowOps) {
+  constructor(app: App, args: Args) {
     this.app = app
 
-    const { index, preload, bounds } = ops
+    const { index, preload, bounds } = args
     this.window = new BaseWindow({
       frame: false,
-      x: bounds ? bounds.x : 100,
-      y: bounds ? bounds.y : 100,
+      x: bounds ? bounds.x : 120,
+      y: bounds ? bounds.y : 120,
       width: bounds ? bounds.width : 1200,
       height: bounds ? bounds.height : 800,
       minWidth: 720,
@@ -65,8 +71,8 @@ export class Window {
 
   setupListener() {
     this.window.on('close', () => {
-      this.dialogManager.close()
-      this.webviewManager.close()
+      this.dialogManager.destroy()
+      this.webviewManager.destroy()
 
       this.app.windows.delete(this.id)
 
@@ -113,11 +119,15 @@ export class Window {
     return this.window.id
   }
 
+  get webContents() {
+    return this.webview.webContents
+  }
+
   get contentView() {
     return this.window.contentView
   }
 
-  get webContents() {
-    return this.webview.webContents
+  get contentBounds() {
+    return this.window.getContentBounds()
   }
 }

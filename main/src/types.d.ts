@@ -1,6 +1,6 @@
 declare interface Bounds {
-  x?: number
-  y?: number
+  x: number
+  y: number
   width: number
   height: number
   maximized?: boolean
@@ -12,16 +12,5 @@ declare interface Margin {
   left: number
   right: number
   bottom: number
-}
-
-declare interface WindowOps {
-  index: string
-  bounds?: Bounds
-  preload?: string
-}
-
-declare interface WebviewOps {
-  key: string
-  url: string
-  active?: boolean
+  refresh?: boolean
 }

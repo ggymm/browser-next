@@ -10,7 +10,7 @@ export class DialogManager {
     this.window = window
   }
 
-  close() {
-    console.log('close')
+  destroy() {
+    console.log('destroy')
   }
 }
