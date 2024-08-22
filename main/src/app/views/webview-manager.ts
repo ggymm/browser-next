@@ -3,20 +3,20 @@ import { Window } from '@/app/window'
 import { Args, Webview } from '@/app/views/webview'
 
 export class WebviewManager {
-  app: App
-  window: Window
+  public app: App
+  public window: Window
 
-  margin: Margin = {
+  public margin: IMargin = {
     top: 0,
     left: 0,
     right: 0,
     bottom: 0
   }
 
-  views = new Map<string, Webview>()
+  public views = new Map<string, Webview>()
 
-  selected: Webview | null = null
-  fullscreen = false
+  public selected: Webview | null = null
+  public fullscreen = false
 
   constructor(window: Window) {
     this.app = window.app
@@ -37,7 +37,7 @@ export class WebviewManager {
   }
 
   create(args: Args) {
-    const view = new Webview(this.app, args)
+    const view = new Webview(this.window, args)
     if (!args.active) {
       // 仅缓存
       this.cacheWebview(args.key, view)
@@ -68,7 +68,7 @@ export class WebviewManager {
     args.key = this.selected.key
     this.selected.destroy()
 
-    const view = new Webview(this.app, args)
+    const view = new Webview(this.window, args)
 
     // 更新视图
     this.updateWebview(args.key, view)
@@ -89,7 +89,7 @@ export class WebviewManager {
     })
   }
 
-  setMargin(margin: Margin) {
+  setMargin(margin: IMargin) {
     if (margin.top != undefined) {
       this.margin.top = margin.top
     }
@@ -117,10 +117,10 @@ export class WebviewManager {
 
   updateWebview(key: string, view: Webview) {
     if (this.selected && this.selected !== view) {
-      this.window.contentView.removeChildView(this.selected.view)
+      this.window.contentView.removeChildView(this.selected.webview)
     }
     this.window.webContents.focus()
-    this.window.contentView.addChildView(view.view)
+    this.window.contentView.addChildView(view.webview)
 
     // 设置选中
     this.selected = view

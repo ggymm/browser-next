@@ -3,17 +3,21 @@ import { join } from 'path'
 import { app, Menu } from 'electron'
 
 import { Args, Window } from '@/app/window.js'
+import { WindowSession } from '@/app/window-session'
 
 export const appPath = app.getAppPath()
 export const dataPath = join(app.getPath('userData'), 'app')
 
 export class App {
+  public session: WindowSession | null = null
   public windows = new Map<number, Window>()
-  public currentWindow: Window | null = null
 
-  public mainPreload = appPath + '/preload/main.js'
-  public viewPreload = appPath + '/preload/view.js'
-  public mainRenderer = appPath + '/renderer/main.html'
+  public preload = join(appPath, 'preload')
+  public renderer = join(appPath, 'renderer')
+
+  public mainPreload = this.preload + '/main.js'
+  public viewPreload = this.preload + '/view.js'
+  public mainRenderer = this.renderer + '/main.html'
 
   public stateFile = dataPath + '/window-state.json'
   public storagePath = dataPath + '/storage'
@@ -43,6 +47,8 @@ export class App {
     Menu.setApplicationMenu(null)
     app.whenReady().then(() => {
       this.open()
+
+      this.session = new WindowSession(this)
     })
   }
 }

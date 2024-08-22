@@ -2,8 +2,8 @@ import { App } from '@/app'
 import { Window } from '@/app/window'
 
 export class DialogManager {
-  app: App
-  window: Window
+  public app: App
+  public window: Window
 
   constructor(window: Window) {
     this.app = window.app

@@ -9,7 +9,7 @@ import { WebviewManager } from '@/app/views/webview-manager'
 
 export interface Args {
   index: string
-  bounds?: Bounds
+  bounds?: IBounds
   preload?: string
 }
 
@@ -86,7 +86,6 @@ export class Window {
 
     this.window.on('focus', () => {
       // 设置当前窗口为当前窗口
-      this.app.currentWindow = this
     })
 
     this.window.on('resize', () => {

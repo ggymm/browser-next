@@ -1,4 +1,4 @@
-declare interface Bounds {
+declare interface IBounds {
   x: number
   y: number
   width: number
@@ -7,10 +7,22 @@ declare interface Bounds {
   fullscreen?: boolean
 }
 
-declare interface Margin {
+declare interface IMargin {
   top: number
   left: number
   right: number
   bottom: number
   refresh?: boolean
+}
+
+declare interface IFavicon {
+  url: string
+  favicon: string
+}
+
+declare interface IHistory {
+  url: string
+  title: string
+  favicon: string
+  timestamp?: number
 }
