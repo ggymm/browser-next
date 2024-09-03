@@ -9,16 +9,19 @@ importers:
   .:
     devDependencies:
       '@unocss/preset-rem-to-px':
-        specifier: ^0.62.2
+        specifier: 0.62.2
         version: 0.62.2
       '@vitejs/plugin-vue':
         specifier: 5.1.2
         version: 5.1.2(vite@5.4.1(@types/node@22.3.0)(sass@1.77.8))(vue@3.4.38)
       '@vueuse/core':
-        specifier: ^11.0.0
+        specifier: 11.0.0
         version: 11.0.0(vue@3.4.38)
+      draggabilly:
+        specifier: ^3.0.0
+        version: 3.0.0
       pinia:
-        specifier: ^2.2.2
+        specifier: 2.2.2
         version: 2.2.2(vue@3.4.38)
       prettier:
         specifier: 3.3.3
@@ -30,10 +33,10 @@ importers:
         specifier: 0.62.2
         version: 0.62.2(postcss@5.2.18)(rollup@4.20.0)(vite@5.4.1(@types/node@22.3.0)(sass@1.77.8))
       unplugin-icons:
-        specifier: ^0.19.2
+        specifier: 0.19.2
         version: 0.19.2(@vue/compiler-sfc@3.4.38)
       unplugin-vue-components:
-        specifier: ^0.27.4
+        specifier: 0.27.4
         version: 0.27.4(@babel/parser@7.25.3)(rollup@4.20.0)(vue@3.4.38)
       vite:
         specifier: 5.4.1
@@ -42,7 +45,7 @@ importers:
         specifier: 2.0.1
         version: 2.0.1(vite@5.4.1(@types/node@22.3.0)(sass@1.77.8))
       vue:
-        specifier: ^3.4.38
+        specifier: 3.4.38
         version: 3.4.38
 
 packages:
@@ -1055,6 +1058,9 @@ packages:
   domutils@2.8.0:
     resolution: {integrity: sha512-w96Cjofp72M5IIhpjgobBimYEfoPjx1Vx0BSX9P30WBdZW2WIKU0T1Bd0kz2eNZ9ikjKgHbEyKx8BB6H1L3h3A==}
 
+  draggabilly@3.0.0:
+    resolution: {integrity: sha512-aEs+B6prbMZQMxc9lgTpCBfyCUhRur/VFucHhIOvlvvdARTj7TcDmX/cdOUtqbjJJUh7+agyJXR5Z6IFe1MxwQ==}
+
   duplexer@0.1.2:
     resolution: {integrity: sha512-jtD6YG370ZCIi/9GTaJKQxWTZD045+4R4hTk/x1UyoqadyJ9x9CgSi1RlVDQF8U2sxLLSnFkCaMihqljHIWgMg==}
 
@@ -1123,6 +1129,9 @@ packages:
   etag@1.8.1:
     resolution: {integrity: sha512-aIL5Fx7mawVa300al2BnEE4iNvo1qETxLrPI/o05L7z6go7fCw1J6EQmbK4FmJ2AS7kgVF/KEZWufBfdClMcPg==}
     engines: {node: '>= 0.6'}
+
+  ev-emitter@2.1.2:
+    resolution: {integrity: sha512-jQ5Ql18hdCQ4qS+RCrbLfz1n+Pags27q5TwMKvZyhp5hh2UULUYZUy1keqj6k6SYsdqIYjnmz7xyyEY0V67B8Q==}
 
   execa@5.1.1:
     resolution: {integrity: sha512-8uSpZZocAZRBAPIEINJj3Lo9HyGitllczc27Eh5YYojjMFMn8yHMDMaUHE2Jqfq05D/wucwI4JGURyXt1vchyg==}
@@ -1208,6 +1217,9 @@ packages:
   get-intrinsic@1.2.4:
     resolution: {integrity: sha512-5uYhsJH8VJBTv7oslg4BznJYhDoRI6waYCxMmCdnTrcCrHA/fCFKoTFz2JKKE0HdDFUF7/oQuhzumXJK7paBRQ==}
     engines: {node: '>= 0.4'}
+
+  get-size@3.0.0:
+    resolution: {integrity: sha512-Y8aiXLq4leR7807UY0yuKEwif5s3kbVp1nTv+i4jBeoUzByTLKkLWu/HorS6/pB+7gsB0o7OTogC8AoOOeT0Hw==}
 
   get-stream@6.0.1:
     resolution: {integrity: sha512-ts6Wi+2j3jQjqi70w5AlN8DFnkSwC+MqmxEzdEALB2qXZYV3X/b1CTfgPLGJNMeAWxdPfU8FO1ms3NUfaHCPYg==}
@@ -2025,6 +2037,9 @@ packages:
 
   undici-types@6.18.2:
     resolution: {integrity: sha512-5ruQbENj95yDYJNS3TvcaxPMshV7aizdv/hWYjGIKoANWKjhWNBsr2YEuYZKodQulB1b8l7ILOuDQep3afowQQ==}
+
+  unidragger@3.0.1:
+    resolution: {integrity: sha512-RngbGSwBFmqGBWjkaH+yB677uzR95blSQyxq6hYbrQCejH3Mx1nm8DVOuh3M9k2fQyTstWUG5qlgCnNqV/9jVw==}
 
   union-value@1.0.1:
     resolution: {integrity: sha512-tJfXmxMeWYnczCVs7XAEvIV7ieppALdyepWMkHkwciRpZraG/xwT+s2JN8+pr1+8jCRf80FFzvr+MpQeeoF4Xg==}
@@ -3229,6 +3244,11 @@ snapshots:
       domelementtype: 2.3.0
       domhandler: 4.3.1
 
+  draggabilly@3.0.0:
+    dependencies:
+      get-size: 3.0.0
+      unidragger: 3.0.1
+
   duplexer@0.1.2: {}
 
   electron-to-chromium@1.5.8: {}
@@ -3373,6 +3393,8 @@ snapshots:
 
   etag@1.8.1: {}
 
+  ev-emitter@2.1.2: {}
+
   execa@5.1.1:
     dependencies:
       cross-spawn: 7.0.3
@@ -3490,6 +3512,8 @@ snapshots:
       has-proto: 1.0.3
       has-symbols: 1.0.3
       hasown: 2.0.2
+
+  get-size@3.0.0: {}
 
   get-stream@6.0.1: {}
 
@@ -4371,6 +4395,10 @@ snapshots:
       - supports-color
 
   undici-types@6.18.2: {}
+
+  unidragger@3.0.1:
+    dependencies:
+      ev-emitter: 2.1.2
 
   union-value@1.0.1:
     dependencies:
