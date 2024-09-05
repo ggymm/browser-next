@@ -1,29 +1,27 @@
 <script setup>
 import BrowserTabs from './components/BrowserTabs/index.vue'
-import WindowHandle from './components/WindowHandle/index.vue'
 </script>
 
 <template>
   <div class="app">
-    <div drag class="title">
-      <BrowserTabs flex-1 />
-      <WindowHandle min-w-240 />
+    <div drag flex flex-row class="title-bar">
+      <div flex-1>
+        <browser-tabs wh-full />
+      </div>
+      <window-handle min-w-240 />
     </div>
-    <div class="address"></div>
+    <div class="address-bar"></div>
   </div>
 </template>
 
-<style lang="scss" scoped>
+<style scoped lang="scss">
 .app {
-  .title {
-    display: flex;
-    flex-direction: row;
-
+  .title-bar {
     height: var(--title-height);
     background: var(--title-background);
   }
 
-  .address {
+  .address-bar {
   }
 }
 </style>

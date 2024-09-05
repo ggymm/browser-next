@@ -2,7 +2,10 @@ import 'uno.css'
 import 'virtual:svg-icons-register'
 
 import '@/styles/index.scss'
+
 import SvgIcon from '@/components/SvgIcon/index.vue'
+import SvgIconWrap from '@/components/SvgIcon/index-wrap.vue'
+import WindowHandle from '@/components/WindowHandle/index.vue'
 
 import { createApp } from 'vue'
 
@@ -16,6 +19,8 @@ async function bootstrap() {
   setupStore(app)
 
   app.component('SvgIcon', SvgIcon)
+  app.component('SvgIconWrap', SvgIconWrap)
+  app.component('WindowHandle', WindowHandle)
 
   app.mount('#app')
 }

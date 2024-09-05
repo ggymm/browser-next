@@ -1,33 +1,30 @@
 <script setup>
 import { onMounted } from 'vue'
-import { storeToRefs } from 'pinia'
+import { useWindow } from './index.js'
 
-import { useWindowStore } from '@/views/main/store'
+const window = useWindow()
 
-const store = useWindowStore()
-
-const { maximized } = storeToRefs(store)
+const { maximized } = window
 
 const close = () => {
-  store.close()
+  window.closeWindow()
 }
 
 const restore = () => {
   maximized.value = false
-  store.restore()
+  window.restoreWindow()
 }
 
 const minimize = () => {
-  store.minimize()
+  window.minimizeWindow()
 }
 
 const maximize = () => {
   maximized.value = true
-  store.maximize()
+  window.maximizeWindow()
 }
 
 onMounted(() => {
-  store.init()
   console.log('store window init')
 })
 </script>
@@ -49,7 +46,7 @@ onMounted(() => {
   </div>
 </template>
 
-<style lang="scss">
+<style scoped lang="scss">
 .window-handle {
   .item {
     width: 48px;

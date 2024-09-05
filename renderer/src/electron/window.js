@@ -1,8 +1,12 @@
 import { onEvent, sendEvent } from './event'
 
 export const on = (callback) => {
-  onEvent('main:window:on-maximize', callback(true))
-  onEvent('main:window:on-unmaximize', callback(false))
+  onEvent('main:window:on-maximize', () => {
+    callback(true)
+  })
+  onEvent('main:window:on-unmaximize', () => {
+    callback(false)
+  })
 }
 
 export const close = () => {
