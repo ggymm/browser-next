@@ -5,12 +5,12 @@ import { storeToRefs } from 'pinia'
 import { useTabsStore } from '@/views/main/store'
 
 import { on, off } from '@/utils/dom'
-import SvgIconWrap from '@/components/SvgIcon/index-wrap.vue'
+
+const minWidth = 120
+const maxWidth = 240
 
 const store = useTabsStore()
-const { tabs, current, minWidth, maxWidth } = storeToRefs(store)
-
-const width = ref(maxWidth)
+const { tabs, width, current } = storeToRefs(store)
 
 const tabsRef = ref()
 
@@ -35,38 +35,53 @@ const init = () => {
 const handleChoose = (ev, tab) => {
   current.value = tab['id']
 
-  const x = tab['x']
-  const el = tab['el']
-  const pos = width.value / 2 // 中心点
+  // 添加拖拽样式
   nextTick(() => {
     el.classList.add('dragging')
   })
 
+  const x = tab['x']
+  const el = tab['el']
+
+  const left = ev.clientX - x
+  const right = (tabs.value.length - 1) * width.value + left
+  // const right = tabs.value.length * width.value - (width.value - ev.clientX + x)
+
+  const tabsVal = tabs.value
+  const widthVal = width.value
+  const widthHalf = width.value / 2
+
   const up = () => {
     el.style.left = `${tab['x']}px`
     el.style.transform = 'translateX(0px)'
+
+    // 移除拖拽样式
     nextTick(() => {
       el.classList.remove('dragging')
     })
 
-    // 移除监听
+    // 移除鼠标事件监听
     off(document, 'mouseup', up)
     off(document, 'mousemove', move)
   }
 
   const move = (e) => {
+    if (e.clientX < left || e.clientX > right) {
+      return
+    }
+
     const dis = e.clientX - ev.clientX
     el.style.transform = `translateX(${dis}px)`
 
-    const currX = x + pos + dis
-    for (let i = 0; i < tabs.value.length; i++) {
-      const target = tabs.value[i]
+    const currX = x + dis + widthHalf
+    for (let i = 0; i < tabsVal.length; i++) {
+      const target = tabsVal[i]
       if (tab['id'] === target['id']) {
         continue
       }
 
       const targetX = target['x']
-      if (currX > targetX && currX < targetX + width.value) {
+      if (currX > targetX && currX < targetX + widthVal) {
         swap(tab, target)
       }
     }
@@ -75,23 +90,24 @@ const handleChoose = (ev, tab) => {
   const swap = (curr, target) => {
     let i = -1
     let j = -1
-    for (let n = 0; n < tabs.value.length; n++) {
-      if (curr['id'] === tabs.value[n]['id']) {
+    for (let n = 0; n < tabsVal.length; n++) {
+      if (curr['id'] === tabsVal[n]['id']) {
         i = n
       }
-      if (target['id'] === tabs.value[n]['id']) {
+      if (target['id'] === tabsVal[n]['id']) {
         j = n
       }
     }
 
-    // 交换
-    ;[tabs.value[i], tabs.value[j]] = [tabs.value[j], tabs.value[i]]
+    // 交换索引值
+    ;[tabsVal[i], tabsVal[j]] = [tabsVal[j], tabsVal[i]]
 
-    // 重新设置
+    // 交换坐标值
     const _x = curr['x']
     curr['x'] = target['x']
     target['x'] = _x
 
+    // 添加过渡动画
     setTimeout(() => {
       target['el'].style.left = `${_x}px`
       target['el'].classList.add('moving')
@@ -101,14 +117,12 @@ const handleChoose = (ev, tab) => {
     }, 200)
   }
 
-  // 监听鼠标移动
+  // 添加鼠标事件监听
   on(document, 'mouseup', up)
   on(document, 'mousemove', move)
 }
 
 onMounted(() => {
-  store.init()
-  console.log('store tabs init')
   nextTick(() => {
     init()
   })
@@ -118,7 +132,7 @@ onMounted(() => {
 <template>
   <div class="browser-tabs">
     <div class="tabs-shortcut">
-      <svg-icon-wrap size="16px" icon="arrow-down" />
+      <svg-icon-wrap size="16px" icon="down" />
     </div>
     <div ref="tabsRef" class="tabs-container">
       <div
@@ -146,7 +160,7 @@ onMounted(() => {
           </div>
         </div>
       </div>
-      <div class="tab-create" :style="{ left: `${width * tabs.length}px` }">
+      <div class="tab-create" :style="{ left: `${width * tabs.length + 4}px` }">
         <svg-icon-wrap size="14px" icon="tab-add" />
       </div>
     </div>
@@ -161,8 +175,8 @@ $size: 12;
   flex-direction: row;
 
   .tabs-shortcut {
-    width: var(--title-height);
-    height: var(--title-height);
+    width: var(--title-bar-height);
+    height: var(--title-bar-height);
 
     display: flex;
     align-items: center;
@@ -172,18 +186,18 @@ $size: 12;
       width: 28px;
       height: 28px;
       border-radius: 10px;
-      background: var(--browser-tabs-btn-background);
+      background: var(--title-bar-tabs-btn-background);
 
       display: flex;
       align-items: center;
       justify-content: center;
 
       &:hover {
-        background: var(--browser-tabs-btn-background-hover);
+        background: var(--title-bar-tabs-btn-background-hover);
       }
 
       &:active {
-        background: var(--browser-tabs-btn-background-active);
+        background: var(--title-bar-tabs-btn-background-active);
       }
     }
   }
@@ -223,7 +237,7 @@ $size: 12;
 
       &.active {
         border-radius: #{$size}px #{$size}px 0 0;
-        background: var(--browser-tabs-background-active);
+        background: var(--title-bar-tabs-background-active);
 
         & + .tab-item .tab-bg .tab-divider {
           display: none;
@@ -237,7 +251,7 @@ $size: 12;
             height: #{$size * 2}px;
             bottom: 0;
             content: '';
-            box-shadow: 0 0 0 #{$size * 2}px var(--browser-tabs-background-active);
+            box-shadow: 0 0 0 #{$size * 2}px var(--title-bar-tabs-background-active);
             border-radius: 100%;
           }
 
@@ -293,7 +307,7 @@ $size: 12;
           width: calc(100% - 12px);
           height: calc(100% - 8px);
           display: none;
-          background: var(--browser-tabs-background-hover);
+          background: var(--title-bar-tabs-background-hover);
           margin-bottom: 5px;
           border-radius: 10px;
         }
@@ -303,7 +317,7 @@ $size: 12;
           left: 0;
           width: 2px;
           height: 50%;
-          background: var(--browser-tabs-divider-background);
+          background: var(--title-bar-tabs-divider-background);
           margin-bottom: 5px;
         }
 
@@ -312,7 +326,7 @@ $size: 12;
           right: 0;
           width: 2px;
           height: 50%;
-          background: var(--browser-tabs-divider-background);
+          background: var(--title-bar-tabs-divider-background);
           margin-bottom: 5px;
         }
       }
@@ -344,6 +358,7 @@ $size: 12;
         .tab-title {
           flex: 1;
           font-size: 12px;
+          color: var(--title-bar-tabs-title-color);
           overflow: hidden;
           white-space: nowrap;
           //noinspection CssInvalidPropertyValue
@@ -351,8 +366,8 @@ $size: 12;
         }
 
         .tab-close {
-          width: 16px;
-          height: 16px;
+          width: 18px;
+          height: 18px;
           margin: 0 12px;
           border-radius: 100%;
 
@@ -380,8 +395,8 @@ $size: 12;
       justify-content: center;
 
       .wrap {
-        width: 24px;
-        height: 24px;
+        width: 28px;
+        height: 28px;
         border-radius: 100%;
 
         display: flex;
@@ -389,11 +404,11 @@ $size: 12;
         justify-content: center;
 
         &:hover {
-          background: var(--browser-tabs-btn-background-hover);
+          background: var(--title-bar-tabs-btn-background-hover);
         }
 
         &:active {
-          background: var(--browser-tabs-btn-background-active);
+          background: var(--title-bar-tabs-btn-background-active);
         }
       }
     }

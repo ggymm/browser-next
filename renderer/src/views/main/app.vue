@@ -1,4 +1,5 @@
 <script setup>
+import AddressBar from './components/AddressBar/index.vue'
 import BrowserTabs from './components/BrowserTabs/index.vue'
 </script>
 
@@ -10,18 +11,15 @@ import BrowserTabs from './components/BrowserTabs/index.vue'
       </div>
       <window-handle min-w-240 />
     </div>
-    <div class="address-bar"></div>
+    <address-bar />
   </div>
 </template>
 
 <style scoped lang="scss">
 .app {
   .title-bar {
-    height: var(--title-height);
-    background: var(--title-background);
-  }
-
-  .address-bar {
+    height: var(--title-bar-height);
+    background: var(--title-bar-background);
   }
 }
 </style>

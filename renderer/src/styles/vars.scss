@@ -1,21 +1,33 @@
 html {
-  --common-hover: rgba(0, 0, 0, 0.2);
+  --common-hover: rgba(0, 0, 0, 0.1);
+  --common-active: rgba(0, 0, 0, 0.2);
 
-  --title-height: 40px;
-  --title-background: #d3e3fd;
-
-  --browser-tabs-background: #d3e3fd;
-  --browser-tabs-background-hover: #a8c7fa;
-  --browser-tabs-background-active: #ffffff;
-
-  --browser-tabs-btn-background: #ecf3fe;
-  --browser-tabs-btn-background-hover: #a8c7fa;
-  --browser-tabs-btn-background-active: #9db9e8;
-
-  --browser-tabs-divider-background: #a8c7fa;
+  --title-bar-height: 40px;
+  --title-bar-background: #d3e3fd;
 
   --window-handle-icon-color: #23292e;
   --window-handle-icon-hover: #becce3;
   --window-handle-icon-close-hover: #ffffff;
   --window-handle-icon-close-background: #e81123;
+
+  --title-bar-tabs-background: #d3e3fd;
+  --title-bar-tabs-background-hover: #a8c7fa;
+  --title-bar-tabs-background-active: #ffffff;
+
+  --title-bar-tabs-btn-background: #ecf3fe;
+  --title-bar-tabs-btn-background-hover: #a8c7fa;
+  --title-bar-tabs-btn-background-active: #9db9e8;
+
+  --title-bar-tabs-title-color: #23292e;
+
+  --title-bar-tabs-divider-background: #a8c7fa;
+
+  --address-bar-height: 48px;
+  --address-bar-background: #ffffff;
+
+  --navigation-icon-color: #23292e;
+  --navigation-icon-disabled: #bfbfbf;
+
+  --address-bar-url-height: 36px;
+  --address-bar-url-background: #eceff7;
 }

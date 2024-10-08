@@ -57,9 +57,9 @@ onMounted(() => {
     }
 
     svg {
+      color: var(--window-handle-icon-color);
       width: 16px;
       height: 16px;
-      color: var(--window-handle-icon-color);
     }
 
     &.close {

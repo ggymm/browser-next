@@ -6,3 +6,4 @@ export function setupStore(app) {
 
 export * from './modules/app.js'
 export * from './modules/tabs.js'
+export * from './modules/view.js'
