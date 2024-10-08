@@ -28,35 +28,35 @@ export class WebviewManager {
   }
 
   close(args: Args) {
-    const view = this.views.get(args.key)
+    const view = this.views.get(args.id)
     if (!view) {
       return
     }
     view.destroy()
-    this.views.delete(args.key)
+    this.views.delete(args.id)
   }
 
   create(args: Args) {
     const view = new Webview(this.window, args)
     if (!args.active) {
       // 仅缓存
-      this.cacheWebview(args.key, view)
+      this.cacheWebview(args.id, view)
       return
     }
 
     // 更新视图
-    this.updateWebview(args.key, view)
+    this.updateWebview(args.id, view)
   }
 
   select(args: Args) {
-    const view = this.views.get(args.key)
+    const view = this.views.get(args.id)
     if (!view || view === this.selected) {
       // 视图不存在 或 视图与当前视图相同
       return
     }
 
     // 更新视图
-    this.updateWebview(args.key, view)
+    this.updateWebview(args.id, view)
   }
 
   update(args: Args) {
@@ -65,13 +65,13 @@ export class WebviewManager {
     }
 
     // 需要删除当前视图
-    args.key = this.selected.key
+    args.id = this.selected.id
     this.selected.destroy()
 
     const view = new Webview(this.window, args)
 
     // 更新视图
-    this.updateWebview(args.key, view)
+    this.updateWebview(args.id, view)
   }
 
   setBounds() {

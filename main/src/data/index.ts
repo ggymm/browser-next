@@ -1,7 +1,7 @@
-export const recordFavicon = (f: IFavicon) => {
+export const createFavicon = (f: IFavicon) => {
   console.log(f)
 }
 
-export const recordHistory = (h: IHistory) => {
+export const createHistory = (h: IHistory) => {
   console.log(h)
 }

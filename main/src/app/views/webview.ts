@@ -6,16 +6,16 @@ import { Window } from '@/app/window'
 import { getUserAgent } from '@/utils/user-agent'
 import { getWebErrorBaseURL } from '@/app/scheme'
 
-import { recordFavicon, recordHistory } from '@/data'
+import { createFavicon, createHistory } from '@/data'
 
 export interface Args {
-  key: string
+  id: string
   url: string
   active?: boolean
 }
 
 export class Webview {
-  public key: string = ''
+  public id: string = ''
   public app: App
   public window: Window
   public webview: WebContentsView
@@ -29,12 +29,12 @@ export class Webview {
     height: 0
   }
 
+  public url: string = ''
   public title: string = ''
   public originURL: string = ''
-  public currentURL: string = ''
 
   constructor(window: Window, args: Args) {
-    this.key = args.key
+    this.id = args.id
     this.app = window.app
     this.window = window
     this.webview = new WebContentsView({
@@ -51,6 +51,8 @@ export class Webview {
     })
 
     this.webview.setBackgroundColor('#FFFFFFFF')
+
+    this.updateWebview('loading', true)
     this.webContents.userAgent = getUserAgent()
     this.webContents.loadURL(args.url).then(() => {})
 
@@ -62,7 +64,7 @@ export class Webview {
     if (!this.error) {
       this.webContents.reload()
     } else {
-      this.webContents.loadURL(this.currentURL).then(() => {})
+      this.webContents.loadURL(this.url).then(() => {})
     }
   }
 
@@ -75,47 +77,28 @@ export class Webview {
     this.webview.setBounds(bounds)
   }
 
-  setupListener() {
-    const notify = (event: string, args: any) => {
-      this.window.webContents.send('main:webview:state:update', {
-        key: this.key,
-        args: args,
-        event: event
-      })
-    }
-
-    const updateURL = (url: string) => {
-      this.currentURL = url
-      notify('url', url)
-      this.updateBookmarkState()
-      console.log('updateURL', this.currentURL)
-    }
-
-    const updateTitle = (title: string) => {
-      this.title = title
-      notify('title', title)
-      console.log('updateTitle', this.currentURL, title)
-    }
-
-    const updateFavicon = (favicon: string) => {
-      this.favicon = favicon
-      notify('favicon', favicon)
-
-      // 执行保存数据库操作
-      recordFavicon({
-        url: this.currentURL,
-        favicon: favicon
-      })
-    }
-
-    // 监听加载完成
-    this.webContents.addListener('did-finish-load', async () => {
-      recordHistory({
-        url: this.currentURL,
-        title: this.title,
-        favicon: this.favicon
-      })
+  updateWebview = (event: string, args: any) => {
+    this.window.webContents.send('main:webview:state:update', {
+      id: this.id,
+      args: args,
+      event: event
     })
+  }
+
+  // https://www.electronjs.org/zh/docs/latest/api/web-contents
+  setupListener() {
+    const updateURL = (url?: string) => {
+      if (!url) {
+        url = this.webContents.getURL()
+      }
+      this.url = url
+      this.updateBookmarkState()
+      if (!this.error) {
+        this.updateWebview('url', this.url)
+      } else {
+        this.updateWebview('url', this.originURL)
+      }
+    }
 
     // 监听加载失败
     this.webContents.addListener('did-fail-load', async (_, errorCode, errorDescription, validatedURL, isMainFrame) => {
@@ -135,49 +118,68 @@ export class Webview {
     // 监听开始加载
     this.webContents.addListener('did-start-loading', async () => {
       this.error = false
-
-      updateURL(this.url)
-      this.updateNavigationState()
+      this.updateWebview('loading', true)
+      console.log('did-start-loading')
     })
 
     // 监听加载完成
     this.webContents.addListener('did-stop-loading', async () => {
-      updateURL(this.url)
-      this.updateNavigationState()
+      this.updateWebview('loading', false)
+      console.log('did-stop-loading')
     })
 
     // 监听 title 改变
-    this.webContents.addListener('page-title-updated', async (_, title) => {
-      updateURL(this.url)
-      updateTitle(title)
+    this.webContents.addListener('page-title-updated', async (_event, title) => {
+      this.title = title
+      this.updateWebview('title', title)
+      console.log('page-title-updated', this.title)
     })
 
     // 监听 favicon 改变
-    this.webContents.addListener('page-favicon-updated', async (_, favicons) => {
-      updateURL(this.url)
-      updateFavicon(favicons[0])
+    this.webContents.addListener('page-favicon-updated', async (_event, favicons) => {
+      this.favicon = favicons[0]
+      createFavicon({
+        url: this.url,
+        favicon: this.favicon
+      })
+      createHistory({
+        url: this.url,
+        title: this.title,
+        favicon: this.favicon
+      })
+      this.updateWebview('favicon', this.favicon)
+      console.log('page-favicon-updated', this.favicon)
     })
 
-    // 监听导航开始
-    this.webContents.addListener('did-start-navigation', async (_, url) => {
-      updateURL(url)
-      this.updateNavigationState()
-    })
-
-    // 监听导航完成
-    this.webContents.addListener('did-navigate', async (_, url) => {
-      updateURL(url)
-      this.updateNavigationState()
-    })
-
-    // 监听 hash 导航
-    this.webContents.addListener('did-navigate-in-page', async (_, url, isMainFrame) => {
+    this.webContents.addListener('did-start-navigation', async ({ url, isMainFrame }) => {
       if (!isMainFrame) {
         return
       }
-
       updateURL(url)
       this.updateNavigationState()
+      console.log('did-start-navigation', url)
+    })
+
+    // 监听打开新窗口
+    this.webContents.setWindowOpenHandler((details) => {
+      const { url, frameName, disposition } = details
+      if (url == 'about:blank') {
+        return { action: 'allow' }
+      }
+
+      const create = () => {
+        this.window.webContents.send('main:webview:create', { url: url, active: true })
+      }
+
+      if (disposition == 'new-window' && frameName == '_blank') {
+        create()
+        return { action: 'deny' }
+      }
+      if (disposition == 'foreground-tab' || disposition == 'background-tab') {
+        create()
+        return { action: 'deny' }
+      }
+      return { action: 'allow' }
     })
   }
 
@@ -193,20 +195,11 @@ export class Webview {
     }
 
     // 通知视图更新
-    this.window.webContents.send('main:webview:state:update', {
-      key: this.key,
-      args: this.webContents.isLoading(),
-      event: 'loading'
-    })
     this.window.webContents.send('main:webview:navigation:update', {
       canGoBack: this.webContents.canGoBack(),
       canGoForward: this.webContents.canGoForward(),
       canReload: !this.webContents.isLoading()
     })
-  }
-
-  get url() {
-    return this.webContents.getURL()
   }
 
   get webContents() {

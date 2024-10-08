@@ -17,7 +17,6 @@
     "importHelpers": true,
     "esModuleInterop": true,
     "moduleResolution": "node",
-    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "lib/**/*.ts",
