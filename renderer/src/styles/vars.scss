@@ -29,5 +29,11 @@ html {
   --navigation-icon-disabled: #bfbfbf;
 
   --address-bar-url-height: 36px;
-  --address-bar-url-background: #eceff7;
+  --address-bar-url-input-height: 22px;
+  --address-bar-url-border: 2px solid #edf2fa;
+  --address-bar-url-border-hover: 2px solid #e1e6ed;
+  --address-bar-url-border-active: 2px solid #0b57d0;
+  --address-bar-url-background: #edf2fa;
+  --address-bar-url-background-hover: #e1e6ed;
+  --address-bar-url-background-active: #ffffff;
 }

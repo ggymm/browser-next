@@ -1,26 +1,78 @@
 <script setup>
+import { computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
 import { useViewStore } from '@/views/main/store'
 
 const store = useViewStore()
 const { url, canBack, canForward, canReload } = storeToRefs(store)
+
+const urls = computed(() => {
+  try {
+    const u = new URL(url.value)
+
+    if (u.pathname === '/') {
+      return [
+        { val: u.protocol + '//', grey: true },
+        { val: u.hostname, grey: false },
+        { val: u.port ? ':' : '', grey: true },
+        { val: u.port, grey: true },
+        { val: u.search, grey: true },
+        { val: u.hash, grey: true }
+      ]
+    }
+
+    return [
+      { val: u.protocol + '//', grey: true },
+      { val: u.hostname, grey: false },
+      { val: u.port ? ':' : '', grey: true },
+      { val: u.port, grey: true },
+      { val: u.pathname, grey: true },
+      { val: u.search, grey: true },
+      { val: u.hash, grey: true }
+    ]
+  } catch (e) {
+    return [{ val: url.value, grey: false }]
+  }
+})
+
+const active = ref(false)
+const handleBlur = () => {
+  active.value = false
+}
+const handleFocus = () => {
+  active.value = true
+}
 </script>
 
 <template>
   <div class="address-bar">
-    <div class="nav">
+    <div class="address-bar__nav">
       <svg-icon-wrap icon="nav-back" :class="{ disable: !canBack }" />
       <svg-icon-wrap icon="nav-forward" :class="{ disable: !canForward }" />
       <svg-icon-wrap icon="nav-refresh" v-if="canReload" :class="{ disable: !canReload }" />
       <svg-icon-wrap icon="nav-stop" v-if="!canReload" :class="{ disable: canReload }" />
     </div>
-    <div class="url">
-      <div class="input">
-        <div class="prefix"></div>
-        <input type="text" :value="url" />
-        <div class="suffix"></div>
+    <div class="address-bar__url">
+      <div class="address-bar__url-input" :class="{ active: active }">
+        <div class="input-mask" :style="{ display: active ? 'none' : 'flex' }">
+          <div v-for="(item, i) in urls" :key="i" :style="{ opacity: item['grey'] ? 0.7 : 1 }">
+            {{ item['val'] }}
+          </div>
+        </div>
+        <input
+          class="input-value"
+          type="text"
+          v-model="url"
+          @blur="handleBlur"
+          @focus="handleFocus"
+          :style="{ color: active ? '' : 'transparent' }"
+        />
       </div>
+      <div class="address-bar__url-prefix">
+        <svg-icon-wrap icon="info" />
+      </div>
+      <div class="address-bar__url-suffix"></div>
     </div>
     <div class="tools"></div>
   </div>
@@ -33,8 +85,8 @@ const { url, canBack, canForward, canReload } = storeToRefs(store)
   display: flex;
   flex-direction: row;
 
-  .nav {
-    padding: 0 8px;
+  &__nav {
+    padding: 0 12px;
 
     display: flex;
     flex-direction: row;
@@ -66,38 +118,92 @@ const { url, canBack, canForward, canReload } = storeToRefs(store)
 
       svg {
         color: var(--navigation-icon-color);
-        width: 16px;
-        height: 16px;
+        width: 18px;
+        height: 18px;
       }
     }
   }
 
-  .url {
+  &__url {
+    position: relative;
     flex: 1;
     display: flex;
     flex-direction: row;
 
-    .input {
-      flex: 1;
+    &-prefix {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 20px;
+      height: 100%;
+
+      .wrap {
+        width: 28px;
+        height: 28px;
+        border-radius: 10px;
+        background: var(--title-bar-tabs-btn-background);
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        &:hover {
+          background: var(--title-bar-tabs-btn-background-hover);
+        }
+
+        &:active {
+          background: var(--title-bar-tabs-btn-background-active);
+        }
+      }
+    }
+
+    &-suffix {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 20px;
+      height: 100%;
+    }
+
+    &-input {
+      position: relative;
+      padding: 0 20px 0 20px;
+      border: var(--address-bar-url-border);
       height: var(--address-bar-url-height);
       border-radius: var(--address-bar-url-height);
       background: var(--address-bar-url-background);
 
+      flex: 1;
       display: flex;
       flex-direction: row;
+      align-items: center;
 
-      input {
+      &:hover {
+        border: var(--address-bar-url-border-hover);
+        background: var(--address-bar-url-background-hover);
+      }
+
+      &.active {
+        border: var(--address-bar-url-border-active);
+        background: var(--address-bar-url-background-active);
+      }
+
+      .input-mask {
+        position: absolute;
+        height: var(--address-bar-url-input-height);
+        user-select: none;
+        line-height: var(--address-bar-url-input-height);
+        font-size: 14px;
+        font-family: 'Microsoft YaHei', 'sans-serif';
+      }
+
+      .input-value {
         width: 100%;
-        height: 100%;
-        background: var(--address-bar-url-background);
-      }
-
-      .prefix {
-        width: 20px;
-      }
-
-      .suffix {
-        width: 20px;
+        height: var(--address-bar-url-input-height);
+        line-height: var(--address-bar-url-input-height);
+        background: transparent;
+        font-size: 14px;
+        font-family: 'Microsoft YaHei', 'sans-serif';
       }
     }
   }
