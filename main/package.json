@@ -3,8 +3,7 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "build": "rollup -c",
-    "develop": "zx develop.mjs"
+    "build": "rollup -c"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "5.1.0",
@@ -14,10 +13,8 @@
     "@rollup/plugin-typescript": "11.1.6",
     "electron": "31.4.0",
     "electron-log": "5.2.0",
-    "prettier": "3.3.3",
-    "rollup": "4.21.2",
+    "rollup": "4.22.4",
     "tslib": "2.7.0",
-    "typescript": "5.5.4",
-    "zx": "8.1.5"
+    "typescript": "5.5.4"
   }
 }

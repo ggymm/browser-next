@@ -134,25 +134,29 @@ const handleFocus = () => {
       position: absolute;
       top: 0;
       left: 0;
-      width: 20px;
-      height: 100%;
+      width: var(--address-bar-url-height);
+      height: var(--address-bar-url-height);
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
 
       .wrap {
-        width: 28px;
-        height: 28px;
-        border-radius: 10px;
-        background: var(--title-bar-tabs-btn-background);
+        width: 24px;
+        height: 24px;
+        border-radius: 24px;
+        background: var(--address-bar-url-btn-background);
 
         display: flex;
         align-items: center;
         justify-content: center;
 
         &:hover {
-          background: var(--title-bar-tabs-btn-background-hover);
+          background: var(--address-bar-url-btn-background-hover);
         }
 
         &:active {
-          background: var(--title-bar-tabs-btn-background-active);
+          background: var(--address-bar-url-btn-background-active);
         }
       }
     }
@@ -167,7 +171,7 @@ const handleFocus = () => {
 
     &-input {
       position: relative;
-      padding: 0 20px 0 20px;
+      padding: 0 36px;
       border: var(--address-bar-url-border);
       height: var(--address-bar-url-height);
       border-radius: var(--address-bar-url-height);
@@ -191,10 +195,10 @@ const handleFocus = () => {
       .input-mask {
         position: absolute;
         height: var(--address-bar-url-input-height);
-        user-select: none;
         line-height: var(--address-bar-url-input-height);
         font-size: 14px;
         font-family: 'Microsoft YaHei', 'sans-serif';
+        user-select: none;
       }
 
       .input-value {

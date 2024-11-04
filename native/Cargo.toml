@@ -12,7 +12,7 @@ serde_json = "1.0.125"
 base64 = "0.22.1"
 
 [dependencies.napi]
-version = "2.16.9"
+version = "2.16.13"
 features = ["napi9", "serde-json"]
 
 [dependencies.napi-derive]

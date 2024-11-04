@@ -2,7 +2,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 
 import alias from '@rollup/plugin-alias'
-// import terser from '@rollup/plugin-terser'
+import terser from '@rollup/plugin-terser'
 import resolve from '@rollup/plugin-node-resolve'
 import commonjs from '@rollup/plugin-commonjs'
 import typescript from '@rollup/plugin-typescript'
@@ -10,17 +10,19 @@ import typescript from '@rollup/plugin-typescript'
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
+const __output = path.join(__dirname, '../app/')
+
 export default {
   external: ['electron'],
   input: 'src/index.ts',
   output: [
     {
-      file: 'target/main.js',
+      file: __output + 'main.js',
       format: 'cjs',
       sourcemap: true
     },
     {
-      file: 'target/main.esm.js',
+      file: __output + 'main.esm.js',
       format: 'esm',
       sourcemap: true
     }
@@ -38,7 +40,7 @@ export default {
         }
       ]
     }),
-    // terser(),
+    terser(),
     resolve(),
     commonjs(),
     typescript({

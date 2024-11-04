@@ -1,75 +1,75 @@
-'use strict'
-var e = require('os'),
-  t = require('electron'),
-  i = require('path')
-const n = [
+import { release as e } from 'os'
+import { app as t, ipcMain as i, net as n, WebContentsView as s, BaseWindow as o, session as r, Menu as a } from 'electron'
+import { join as w } from 'path'
+
+const d = [
     [/ Electron\\?.(\S+)/, ''],
-    [` ${t.app.name}/${t.app.getVersion()}`, ''],
+    [` ${t.name}/${t.getVersion()}`, ''],
     [/Chrome\/(\d+)\.[^ ]*/, 'Chrome/$1.0.0.0']
   ],
-  s = () => {
-    let e = t.app.userAgentFallback
+  h = () => {
+    let e = t.userAgentFallback
     return (
-      n.forEach((t) => {
+      d.forEach((t) => {
         e = e.replace(t[0], t[1])
       }),
       e
     )
   },
-  o = (e) => {
-    const { app: i } = e
-    a(i),
-      t.ipcMain.on('debug:user-agent', (e) => {
-        e.returnValue = s()
+  l = (e) => {
+    const { app: t } = e
+    c(t),
+      i.on('debug:user-agent', (e) => {
+        e.returnValue = h()
       }),
       ((e) => {
-        const i = (t) => e.windows.get(t.frameId)
-        t.ipcMain.on('renderer:webview:close', (e, t) => {
-          i(e)?.webviewManager.close(t)
+        const t = (t) => e.windows.get(t.frameId)
+        i.on('renderer:webview:close', (e, i) => {
+          t(e)?.webviewManager.close(i)
         }),
-          t.ipcMain.on('renderer:webview:create', (e, t) => {
-            i(e)?.webviewManager.create(t)
+          i.on('renderer:webview:create', (e, i) => {
+            t(e)?.webviewManager.create(i)
           }),
-          t.ipcMain.on('renderer:webview:select', (e, t) => {
-            i(e)?.webviewManager.select(t)
+          i.on('renderer:webview:select', (e, i) => {
+            t(e)?.webviewManager.select(i)
           }),
-          t.ipcMain.on('renderer:webview:update:margin', (e, t) => {
-            i(e)?.webviewManager.setMargin(t)
+          i.on('renderer:webview:update:margin', (e, i) => {
+            t(e)?.webviewManager.setMargin(i)
           }),
-          t.ipcMain.on('renderer:webview:control:stop', (e) => {
-            i(e)?.webviewManager.selected?.webContents.stop()
+          i.on('renderer:webview:control:stop', (e) => {
+            t(e)?.webviewManager.selected?.webContents.stop()
           }),
-          t.ipcMain.on('renderer:webview:control:reload', (e) => {
-            i(e)?.webviewManager.selected?.webContents.reload()
+          i.on('renderer:webview:control:reload', (e) => {
+            t(e)?.webviewManager.selected?.webContents.reload()
           }),
-          t.ipcMain.on('renderer:webview:control:go-back', (e) => {
-            i(e)?.webviewManager.selected?.webContents.goBack()
+          i.on('renderer:webview:control:go-back', (e) => {
+            t(e)?.webviewManager.selected?.webContents.goBack()
           }),
-          t.ipcMain.on('renderer:webview:control:go-forward', (e) => {
-            i(e)?.webviewManager.selected?.webContents.goForward()
+          i.on('renderer:webview:control:go-forward', (e) => {
+            t(e)?.webviewManager.selected?.webContents.goForward()
           })
-      })(i)
+      })(t)
   },
-  a = (e) => {
-    const i = (t) => e.windows.get(t.frameId)
-    t.ipcMain.on('renderer:window-handle:reload', (e) => {
-      i(e)?.webviewManager.destroy(), i(e)?.webContents.reloadIgnoringCache()
+  c = (e) => {
+    const t = (t) => e.windows.get(t.frameId)
+    i.on('renderer:window-handle:reload', (e) => {
+      t(e)?.webviewManager.destroy(), t(e)?.webContents.reloadIgnoringCache()
     }),
-      t.ipcMain.on('renderer:window:close', (e) => {
-        i(e)?.window.close()
+      i.on('renderer:window:close', (e) => {
+        t(e)?.window.close()
       }),
-      t.ipcMain.on('renderer:window:restore', (e) => {
-        i(e)?.window.restore()
+      i.on('renderer:window:restore', (e) => {
+        t(e)?.window.restore()
       }),
-      t.ipcMain.on('renderer:window:minimize', (e) => {
-        i(e)?.window.minimize()
+      i.on('renderer:window:minimize', (e) => {
+        t(e)?.window.minimize()
       }),
-      t.ipcMain.on('renderer:window:maximize', (e) => {
-        i(e)?.window.maximize()
+      i.on('renderer:window:maximize', (e) => {
+        t(e)?.window.maximize()
       })
   }
 
-class r {
+class u {
   app
   window
 
@@ -82,9 +82,9 @@ class r {
   }
 }
 
-const w = 'app-error'
+const b = 'app-error'
 
-class d {
+class p {
   id = ''
   app
   window
@@ -96,11 +96,11 @@ class d {
   title = ''
   originURL = ''
 
-  constructor(e, i) {
-    ;(this.id = i.id),
+  constructor(e, t) {
+    ;(this.id = t.id),
       (this.app = e.app),
       (this.window = e),
-      (this.webview = new t.WebContentsView({
+      (this.webview = new s({
         webPreferences: {
           preload: this.app.viewPreload,
           sandbox: !0,
@@ -114,8 +114,8 @@ class d {
       })),
       this.webview.setBackgroundColor('#FFFFFFFF'),
       this.updateWebview('loading', !0),
-      (this.webContents.userAgent = s()),
-      this.webContents.loadURL(i.url).then(() => {}),
+      (this.webContents.userAgent = h()),
+      this.webContents.loadURL(t.url).then(() => {}),
       this.setupListener()
   }
 
@@ -151,7 +151,7 @@ class d {
         await this.webContents.loadURL(
           ((e, t, i) => {
             const n = new URL(e).host
-            return `${w}://network-error?url=${e}&host=${n}&code=${t}&description=${i}`
+            return `${b}://network-error?url=${e}&host=${n}&code=${t}&description=${i}`
           })(n, t, i)
         )),
         console.info('browser-view did-fail-load', t, i)
@@ -211,7 +211,7 @@ class d {
   }
 }
 
-class h {
+class g {
   app
   window
   margin = { top: 0, left: 0, right: 0, bottom: 0 }
@@ -233,7 +233,7 @@ class h {
   }
 
   create(e) {
-    const t = new d(this.window, e)
+    const t = new p(this.window, e)
     e.active ? this.updateWebview(e.id, t) : this.cacheWebview(e.id, t)
   }
 
@@ -245,7 +245,7 @@ class h {
   update(e) {
     if (!this.selected) return
     ;(e.id = this.selected.id), this.selected.destroy()
-    const t = new d(this.window, e)
+    const t = new p(this.window, e)
     this.updateWebview(e.id, t)
   }
 
@@ -285,41 +285,41 @@ class h {
   }
 }
 
-class l {
+class v {
   app
   window
   webview
   dialogManager
   webviewManager
 
-  constructor(e, i) {
+  constructor(e, t) {
     this.app = e
-    const { index: n, preload: s, bounds: a } = i
-    ;(this.window = new t.BaseWindow({
+    const { index: i, preload: n, bounds: r } = t
+    ;(this.window = new o({
       frame: !1,
-      x: a ? a.x : 120,
-      y: a ? a.y : 120,
-      width: a ? a.width : 1200,
-      height: a ? a.height : 800,
+      x: r ? r.x : 120,
+      y: r ? r.y : 120,
+      width: r ? r.width : 1200,
+      height: r ? r.height : 800,
       minWidth: 720,
       minHeight: 480
     })),
-      o(this),
-      a && a.maximized && this.window.maximize(),
-      (this.webview = new t.WebContentsView({
+      l(this),
+      r && r.maximized && this.window.maximize(),
+      (this.webview = new s({
         webPreferences: {
-          preload: s,
+          preload: n,
           nodeIntegration: !0,
           contextIsolation: !0
         }
       })),
       this.setBounds(),
-      this.webContents.loadFile(n).then(() => {
+      this.webContents.loadFile(i).then(() => {
         this.setupListener(), this.webContents.openDevTools({ mode: 'detach' })
       }),
       this.contentView.addChildView(this.webview),
-      (this.dialogManager = new r(this)),
-      (this.webviewManager = new h(this))
+      (this.dialogManager = new u(this)),
+      (this.webviewManager = new g(this))
   }
 
   setBounds() {
@@ -372,28 +372,28 @@ class l {
   }
 }
 
-class c {
-  view = t.session.fromPartition('persist:webview')
-  viewIncognito = t.session.fromPartition('incognito:webview')
+class m {
+  view = r.fromPartition('persist:webview')
+  viewIncognito = r.fromPartition('incognito:webview')
 
   constructor(e) {
-    ;((e, i) => {
-      i.protocol.handle(w, () => t.net.fetch(`file:///${e.renderer}/network-error.html`)),
-        i.protocol.handle('app', (i) => {
-          const n = new URL(i.url)
-          return t.net.fetch(`file:///${e.renderer}/${n.pathname}`)
+    ;((e, t) => {
+      t.protocol.handle(b, () => n.fetch(`file:///${e.renderer}/network-error.html`)),
+        t.protocol.handle('app', (t) => {
+          const i = new URL(t.url)
+          return n.fetch(`file:///${e.renderer}/${i.pathname}`)
         })
     })(e, this.view)
   }
 }
 
-const p = t.app.getAppPath()
-i.join(t.app.getPath('userData'), 'app')
-const u = new (class {
+const f = t.getAppPath()
+w(t.getPath('userData'), 'app')
+const C = new (class {
   session = null
   windows = new Map()
-  preload = i.join(p, 'preload')
-  renderer = i.join(p, 'renderer')
+  preload = w(f, 'preload')
+  renderer = w(f, 'renderer')
   mainPreload = this.preload + '/main.js'
   viewPreload = this.preload + '/view.js'
   mainRenderer = this.renderer + '/main.html'
@@ -404,25 +404,25 @@ const u = new (class {
         preload: this.mainPreload,
         bounds: { x: 80, y: 80, width: 1200, height: 800 }
       },
-      t = new l(u, e)
+      t = new v(C, e)
     this.windows.set(t.id, t)
   }
 
   start() {
-    t.app.requestSingleInstanceLock()
-      ? (t.Menu.setApplicationMenu(null),
-        t.app.whenReady().then(() => {
-          this.open(), (this.session = new c(this))
+    t.requestSingleInstanceLock()
+      ? (a.setApplicationMenu(null),
+        t.whenReady().then(() => {
+          this.open(), (this.session = new m(this))
         }))
-      : t.app.quit()
+      : t.quit()
   }
 })()
-e.release().startsWith('6.1') && t.app.disableHardwareAcceleration(), 'win32' === process.platform && t.app.setAppUserModelId(t.app.getName())
-t.app.on('window-all-closed', () => {
-  'darwin' !== process.platform && t.app.quit()
+e().startsWith('6.1') && t.disableHardwareAcceleration(), 'win32' === process.platform && t.setAppUserModelId(t.getName())
+t.on('window-all-closed', () => {
+  'darwin' !== process.platform && t.quit()
 }),
-  t.app.on('certificate-error', (e, t, i, n, s, o) => {
+  t.on('certificate-error', (e, t, i, n, s, o) => {
     e.preventDefault(), o(!0)
   }),
-  u.start()
-//# sourceMappingURL=main.js.map
+  C.start()
+//# sourceMappingURL=main.esm.js.map

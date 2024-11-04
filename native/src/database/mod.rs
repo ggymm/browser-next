@@ -98,7 +98,7 @@ impl Database {
         conn.execute(&sql, params.as_slice()).map_err(|e| {
             Error::from_reason(format!("Failed to execute SQL: {}", e))
         })?;
-
+        
         Ok(true)
     }
 }

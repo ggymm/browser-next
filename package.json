@@ -1,0 +1,13 @@
+{
+  "name": "app",
+  "private": true,
+  "version": "0.0.1",
+  "scripts": {
+    "start": "electron .",
+    "build": "electron-builder build"
+  },
+  "devDependencies": {
+    "prettier": "3.3.3",
+    "zx": "8.1.5"
+  }
+}

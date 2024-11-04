@@ -1,0 +1,1 @@
+import{_ as e,o as n,a as o,G as t}from"./_plugin-vue_export-helper-9Ot2C8Vz.js";const p={};function a(c,_){return n(),o("div",null,"新标签页")}const r=e(p,[["render",a]]);async function s(){t(r).mount("#app")}s();

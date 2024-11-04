@@ -19,9 +19,9 @@ export class App {
   public viewPreload = this.preload + '/view.js'
   public mainRenderer = this.renderer + '/main.html'
 
-  public stateFile = dataPath + '/window-state.json'
-  public storagePath = dataPath + '/storage'
-  public extensionPath = dataPath + '/extensions'
+  // public stateFile = dataPath + '/window-state.json'
+  // public storagePath = dataPath + '/storage'
+  // public extensionPath = dataPath + '/extensions'
 
   open() {
     const args: Args = {

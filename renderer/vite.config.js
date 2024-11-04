@@ -4,6 +4,8 @@ import { defineConfig, loadEnv } from 'vite'
 
 import { createVitePlugins } from './plugin/index'
 
+const __output = path.join(__dirname, '../app/')
+
 const srcPath = () => {
   return path.resolve(process.cwd(), 'src')
 }
@@ -22,7 +24,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: createVitePlugins(),
     build: {
-      outDir: 'dist',
+      outDir: __output + 'renderer',
       rollupOptions: {
         input: {
           main: path.resolve(__dirname, 'main.html'),

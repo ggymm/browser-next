@@ -1,5 +1,5 @@
 {
-  "name": "main",
+  "name": "preload",
   "private": true,
   "version": "0.0.1",
   "scripts": {
@@ -11,8 +11,6 @@
     "@rollup/plugin-node-resolve": "15.2.3",
     "@rollup/plugin-terser": "0.4.4",
     "electron": "31.4.0",
-    "prettier": "3.3.3",
-    "rollup": "4.20.0",
-    "zx": "8.1.4"
+    "rollup": "4.22.4"
   }
 }
