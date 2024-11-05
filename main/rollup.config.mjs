@@ -19,12 +19,12 @@ export default {
     {
       file: __output + 'main.js',
       format: 'cjs',
-      sourcemap: true
+      sourcemap: false
     },
     {
       file: __output + 'main.esm.js',
       format: 'esm',
-      sourcemap: true
+      sourcemap: false
     }
   ],
   plugins: [
@@ -44,7 +44,28 @@ export default {
     resolve(),
     commonjs(),
     typescript({
-      tsconfig: './tsconfig.json'
-    })
+      tsconfig: 'tsconfig.json',
+      compilerOptions: {
+        outDir: __output
+      }
+    }),
+    {
+      name: 'insert-version',
+      generateBundle(outputOptions, bundle) {
+        for (const chunkOrAsset of Object.values(bundle)) {
+          if (chunkOrAsset.type === 'chunk') {
+            const date = new Date()
+            const version =
+              `${date.getFullYear()}` +
+              `-${String(date.getMonth() + 1).padStart(2, '0')}` +
+              `-${String(date.getDate()).padStart(2, '0')}` +
+              ` ${String(date.getHours()).padStart(2, '0')}` +
+              `:${String(date.getMinutes()).padStart(2, '0')}` +
+              `:${String(date.getSeconds()).padStart(2, '0')}`
+            chunkOrAsset.code = `/*! build version ${version} */\n` + chunkOrAsset.code
+          }
+        }
+      }
+    }
   ]
 }

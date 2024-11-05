@@ -3,8 +3,8 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "start": "electron .",
-    "build": "electron-builder build"
+    "start": "zx scripts/start.mjs",
+    "build": "zx scripts/build.mjs"
   },
   "devDependencies": {
     "prettier": "3.3.3",

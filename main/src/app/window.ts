@@ -7,6 +7,8 @@ import { register } from '@/app/event'
 import { DialogManager } from '@/app/views/dialog-manager'
 import { WebviewManager } from '@/app/views/webview-manager'
 
+import { isURL } from '@/utils'
+
 export interface Args {
   index: string
   bounds?: IBounds
@@ -49,12 +51,18 @@ export class Window {
       }
     })
 
-    // 加载主视图
     this.setBounds()
-    this.webContents.loadFile(index).then(() => {
+
+    // 加载主视图
+    const thenFn = () => {
       this.setupListener()
       this.webContents.openDevTools({ mode: 'detach' })
-    })
+    }
+    if (isURL(index)) {
+      this.webContents.loadURL(index).then(thenFn)
+    } else {
+      this.webContents.loadFile(index).then(thenFn)
+    }
     this.contentView.addChildView(this.webview)
 
     // 初始化对话框管理器

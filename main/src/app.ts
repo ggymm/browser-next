@@ -15,17 +15,20 @@ export class App {
   public preload = join(appPath, 'preload')
   public renderer = join(appPath, 'renderer')
 
-  public mainPreload = this.preload + '/main.js'
-  public viewPreload = this.preload + '/view.js'
-  public mainRenderer = this.renderer + '/main.html'
+  public mainPreload = join(this.preload, 'main.js')
+  public viewPreload = join(this.preload, 'view.js')
 
   // public stateFile = dataPath + '/window-state.json'
   // public storagePath = dataPath + '/storage'
   // public extensionPath = dataPath + '/extensions'
 
   open() {
+    let index = join(this.renderer, 'main.html')
+    if (process.env['ELECTRON_MODE'] === 'dev') {
+      index = 'http://localhost:2333'
+    }
     const args: Args = {
-      index: this.mainRenderer,
+      index: index,
       preload: this.mainPreload,
       bounds: {
         x: 80,

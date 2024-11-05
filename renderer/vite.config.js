@@ -15,6 +15,7 @@ export default defineConfig(({ mode }) => {
 
   return {
     server: {
+      port: 2333,
       host: '0.0.0.0'
     },
     resolve: {
