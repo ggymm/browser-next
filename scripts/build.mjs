@@ -1,19 +1,29 @@
 #!/usr/bin/env zx
 
-import { fs } from 'zx'
+console.log()
+console.log('building main...')
+
+cd('main')
+await $`npm run build`
+cd('..') // back to root
 
 console.log()
-console.log('compiling...')
-if (!(await fs.exists('target'))) {
-  await fs.mkdir('target')
-} else {
-  if (await fs.exists('target/index.js')) {
-    await fs.rm('target/index.js')
-  }
-}
-await $`rollup -c`
+console.log('building preload...')
+
+cd('preload')
+await $`npm run build`
+cd('..') // back to root
 
 console.log()
-console.log('debugging...')
-cd('target')
-$`electron .`
+console.log('building renderer...')
+
+cd('renderer')
+await $`npm run build`
+cd('..') // back to root
+
+console.log()
+console.log('building electron...')
+
+cd('app')
+await $`npm run build`
+cd('..') // back to root
