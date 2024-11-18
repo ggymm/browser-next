@@ -30,7 +30,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <div flex flex-row justify-end no-drag class="window-handle">
+  <div flex flex-row justify-end no-drag id="window-handle" class="window-handle">
     <div no-drag flex-center class="item" @click="minimize()">
       <svg-icon icon="minimize" />
     </div>

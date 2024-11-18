@@ -4,7 +4,8 @@ import { storeToRefs } from 'pinia'
 
 import { useTabsStore } from '@/views/main/store'
 
-import { on, off } from '@/utils/dom'
+import { $, on, off } from '@/utils/dom'
+import { useWindowSizeFn } from '@/hooks/event'
 
 const minWidth = 120
 const maxWidth = 240
@@ -25,6 +26,19 @@ const setTabRef = (e, tab) => {
 }
 
 const init = () => {
+  for (let i = 0; i < tabs.value.length; i++) {
+    const x = width.value * i
+    tabs.value[i]['x'] = x
+    tabs.value[i]['el'].style.left = `${x}px`
+  }
+}
+
+const reinit = () => {
+  // 重新计算宽度
+  const w = tabsRef.value.clientWidth - 200
+  const len = tabs.value.length
+  width.value = Math.min(Math.max(w / len, minWidth), maxWidth)
+
   for (let i = 0; i < tabs.value.length; i++) {
     const x = width.value * i
     tabs.value[i]['x'] = x
@@ -103,13 +117,13 @@ const handleChoose = (ev, tab) => {
     ;[tabsVal[i], tabsVal[j]] = [tabsVal[j], tabsVal[i]]
 
     // 交换坐标值
-    const _x = curr['x']
+    const tmp = curr['x']
     curr['x'] = target['x']
-    target['x'] = _x
+    target['x'] = tmp
 
     // 添加过渡动画
     setTimeout(() => {
-      target['el'].style.left = `${_x}px`
+      target['el'].style.left = `${tmp}px`
       target['el'].classList.add('moving')
     }, 50)
     setTimeout(() => {
@@ -121,6 +135,10 @@ const handleChoose = (ev, tab) => {
   on(document, 'mouseup', up)
   on(document, 'mousemove', move)
 }
+
+useWindowSizeFn(() => {
+  reinit()
+}, 300)
 
 onMounted(() => {
   nextTick(() => {
@@ -136,7 +154,7 @@ onMounted(() => {
     </div>
     <div ref="tabsRef" class="tabs-container">
       <div
-        class="tab-item"
+        class="tab-item no-drag"
         :key="tab['id']"
         :ref="(e) => setTabRef(e, tab)"
         :style="{ width: `${width}px` }"
@@ -204,6 +222,8 @@ $size: 12;
 
   .tabs-container {
     position: relative;
+    flex: 1;
+    display: flex;
     margin-top: 4px;
 
     .tab-item {

@@ -56,7 +56,9 @@ export class Window {
     // 加载主视图
     const thenFn = () => {
       this.setupListener()
-      this.webContents.openDevTools({ mode: 'detach' })
+      setTimeout(() => {
+        this.webContents.openDevTools({ mode: 'detach' })
+      }, 1000)
     }
     if (isURL(index)) {
       this.webContents.loadURL(index).then(thenFn)

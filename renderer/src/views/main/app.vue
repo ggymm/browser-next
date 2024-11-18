@@ -9,7 +9,7 @@ import BrowserTabs from './components/BrowserTabs/index.vue'
       <div flex-1>
         <browser-tabs wh-full />
       </div>
-      <window-handle min-w-240 />
+      <window-handle />
     </div>
     <address-bar />
   </div>

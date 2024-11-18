@@ -61,6 +61,7 @@ const handleFocus = () => {
           </div>
         </div>
         <input
+          spellcheck="false"
           class="input-value"
           type="text"
           v-model="url"
@@ -198,7 +199,6 @@ const handleFocus = () => {
         line-height: var(--address-bar-url-input-height);
         font-size: 14px;
         font-family: 'Microsoft YaHei', 'sans-serif';
-        user-select: none;
       }
 
       .input-value {
