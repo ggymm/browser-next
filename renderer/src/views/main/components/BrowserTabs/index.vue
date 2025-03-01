@@ -4,7 +4,7 @@ import { storeToRefs } from 'pinia'
 
 import { useTabsStore } from '@/views/main/store'
 
-import { $, on, off } from '@/utils/dom'
+import { on, off } from '@/utils/dom'
 import { useWindowSizeFn } from '@/hooks/event'
 
 const minWidth = 120
@@ -35,7 +35,7 @@ const init = () => {
 
 const reinit = () => {
   // 重新计算宽度
-  const w = tabsRef.value.clientWidth - 200
+  const w = tabsRef.value.clientWidth - 80
   const len = tabs.value.length
   width.value = Math.min(Math.max(w / len, minWidth), maxWidth)
 
@@ -138,7 +138,7 @@ const handleChoose = (ev, tab) => {
 
 useWindowSizeFn(() => {
   reinit()
-}, 300)
+})
 
 onMounted(() => {
   nextTick(() => {
