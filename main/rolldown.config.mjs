@@ -1,56 +1,38 @@
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-import alias from '@rollup/plugin-alias'
-import terser from '@rollup/plugin-terser'
-import resolve from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-import typescript from '@rollup/plugin-typescript'
+import { defineConfig } from 'rolldown'
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
 const __output = path.join(__dirname, '../app/')
 
-export default {
-  external: ['electron'],
+export default defineConfig({
   input: 'src/index.ts',
   output: [
     {
       file: __output + 'main.js',
       format: 'cjs',
+      minify: true,
       sourcemap: false
     },
     {
       file: __output + 'main.esm.js',
       format: 'esm',
+      minify: true,
       sourcemap: false
     }
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, 'src'),
+      '#': path.resolve(__dirname, 'lib')
+    }
+  },
   plugins: [
-    alias({
-      entries: [
-        {
-          find: '@',
-          replacement: path.resolve(__dirname, 'src')
-        },
-        {
-          find: '#',
-          replacement: path.resolve(__dirname, 'lib')
-        }
-      ]
-    }),
-    terser(),
-    resolve(),
-    commonjs(),
-    typescript({
-      tsconfig: 'tsconfig.json',
-      compilerOptions: {
-        outDir: __output
-      }
-    }),
     {
-      name: 'insert-version',
+      name: 'version',
       generateBundle(outputOptions, bundle) {
         for (const chunkOrAsset of Object.values(bundle)) {
           if (chunkOrAsset.type === 'chunk') {
@@ -67,5 +49,6 @@ export default {
         }
       }
     }
-  ]
-}
+  ],
+  external: ['os', 'path', 'electron']
+})

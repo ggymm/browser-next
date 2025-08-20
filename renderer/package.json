@@ -3,8 +3,8 @@
   "type": "module",
   "version": "0.0.1",
   "scripts": {
-    "start": "vite",
-    "build": "vite build --emptyOutDir"
+    "start:renderer": "vite",
+    "build:renderer": "vite build --emptyOutDir"
   },
   "devDependencies": {
     "@unocss/preset-rem-to-px": "0.64.0",

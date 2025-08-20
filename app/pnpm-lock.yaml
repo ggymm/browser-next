@@ -9,7 +9,7 @@ importers:
   .:
     devDependencies:
       cross-env:
-        specifier: ^7.0.3
+        specifier: 7.0.3
         version: 7.0.3
       electron:
         specifier: 31.4.0

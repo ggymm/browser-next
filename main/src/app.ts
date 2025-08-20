@@ -29,7 +29,6 @@ export class App {
     }
     const args: Args = {
       index: index,
-      preload: this.mainPreload,
       bounds: {
         x: 80,
         y: 80,
@@ -37,6 +36,7 @@ export class App {
         height: 800
       }
     }
+    args.preload = this.mainPreload // 添加 preload 脚本
     const window = new Window(mainApp, args)
     this.windows.set(window.id, window)
   }

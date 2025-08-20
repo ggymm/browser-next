@@ -3,11 +3,10 @@
   "private": true,
   "version": "0.0.1",
   "scripts": {
-    "start": "zx scripts/start.mjs",
-    "build": "zx scripts/build.mjs"
+    "start": "sh scripts/start.sh",
+    "build": "sh scripts/build.sh"
   },
   "devDependencies": {
-    "prettier": "3.3.3",
-    "zx": "8.1.5"
+    "prettier": "3.3.3"
   }
 }
